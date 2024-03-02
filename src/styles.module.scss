@@ -1,0 +1,45 @@
+.firstDiv {
+  background-color: rgba(165, 42, 42, 0.267);
+}
+.secondDiv {
+  background-image: url(rain.gif);
+  background-size: cover;
+  // background-position: center;
+  background-repeat: no-repeat;
+}
+.thirdDiv {
+  content: "";
+  background-color: rgba(0, 0, 0, 0.541);
+  width: 106%;
+  position: relative;
+  left: -14.5px;
+}
+
+.perMsg {
+  background-color: rgba(218, 215, 215, 0.774);
+  color: black;
+}
+.signinbg {
+  background-image: url(cool.gif);
+  background-size: cover;
+  background-position: center;
+  transition: all 0.5s;
+}
+
+.customButton {
+  background-image: linear-gradient(
+    to right,
+    #5aa3f7,
+    #e7074a
+  ); /* Initial gradient */
+  // transition: background-image 3s ease-in-out;
+  color: white;
+  &:hover {
+    background-image: linear-gradient(
+      to right,
+      #e7074a,
+      #5aa3f7
+    ); /* Gradient on hover */
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
