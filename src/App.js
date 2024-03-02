@@ -85,12 +85,7 @@ function App() {
   return (
     <Box className={styles.firstDiv}>
       {user ? (
-        <Container
-          h={"100vh"}
-          bg={"white"}
-          border={"1px solid black"}
-          className={styles.secondDiv}
-        >
+        <Container h={"100vh"} bg={"white"} className={styles.secondDiv}>
           <VStack h="full" paddingY={"4"} className={styles.thirdDiv}>
             //its a div with flex direction column
             <Button
@@ -122,10 +117,7 @@ function App() {
               ))}
               <div ref={forScroll}></div>
             </VStack>
-            <form
-              onSubmit={submitHandler}
-              style={{ width: "95%", zIndex: 999 }}
-            >
+            <form onSubmit={submitHandler} style={{ width: "95%" }}>
               <HStack>
                 ////its a div with flex direction row
                 <Input

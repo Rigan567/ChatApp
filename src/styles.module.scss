@@ -1,28 +1,33 @@
 .firstDiv {
   background-color: rgba(165, 42, 42, 0.267);
 }
-.secondDiv {
-  background-image: url(rain.gif);
-  background-size: cover;
-  // background-position: center;
-  background-repeat: no-repeat;
-}
+// .secondDiv {
+
+// }
 .thirdDiv {
   content: "";
-  background-color: rgba(0, 0, 0, 0.541);
+  background-image: url(city.jpg);
+  background-size: cover;
+  // opacity: 0.9;
+  background-repeat: no-repeat;
   width: 106%;
   position: relative;
   left: -14.5px;
 }
+.thirdDiv::after {
+  background-color: rgba(0, 0, 0, 0.726);
+  opacity: 0.5;
+}
 
 .perMsg {
-  background-color: rgba(218, 215, 215, 0.774);
+  background-color: rgba(192, 185, 185, 0.993);
   color: black;
 }
 .signinbg {
-  background-image: url(cool.gif);
+  background-image: url(SpiderMan.jpg);
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   transition: all 0.5s;
 }
 
@@ -40,6 +45,6 @@
       #e7074a,
       #5aa3f7
     ); /* Gradient on hover */
-    transform: scale3d(1.1, 1.1, 1);
+    transform: scale(1.05);
   }
 }
