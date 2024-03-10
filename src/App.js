@@ -1,4 +1,5 @@
 // import "./App.scss";
+
 import {
   Box,
   Container,
@@ -7,14 +8,22 @@ import {
   Input,
   HStack,
 } from "@chakra-ui/react";
+import { SiGmail } from "react-icons/si";
+import { FaSignInAlt } from "react-icons/fa";
+import { RiLogoutBoxLine } from "react-icons/ri";
+import { IoPersonRemoveSharp } from "react-icons/io5";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Message from "./components/Message";
+import Signin from "./components/Signin";
+import Signup from "./components/Signup";
+
 import styles from "./styles.module.scss";
 import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
   onAuthStateChanged,
   signOut,
+  deleteUser,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -25,21 +34,27 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import { app } from "./firebase";
+import { auth, app } from "./firebase";
 import { useEffect, useState, useRef } from "react";
 
-const auth = getAuth(app); //for authentication
 const db = getFirestore(app); //for database
-const loginHandler = () => {
+
+const signinGoogle = () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider);
 };
+
 const logOutHandler = () => {
-  signOut(auth);
+  signOut(auth).catch((error) => {
+    console.log(error);
+  });
+};
+const removeAcc = () => {
+  deleteUser(auth.currentUser);
 };
 
 function App() {
-  const [user, setUser] = useState(false);
+  const [authUser, setAuthUser] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const forScroll = useRef(null);
@@ -52,8 +67,8 @@ function App() {
 
       await addDoc(collection(db, "Messages"), {
         text: message,
-        uid: user.uid,
-        uri: user.photoURL,
+        uid: authUser.uid,
+        uri: authUser.photoURL,
         createdAt: serverTimestamp(),
       });
       forScroll.current.scrollIntoView({ behavior: "smooth" }); //for auto scrolling w every text
@@ -65,8 +80,12 @@ function App() {
   useEffect(() => {
     const q = query(collection(db, "Messages"), orderBy("createdAt", "asc"));
 
-    const unsubscribe = onAuthStateChanged(auth, (data) => {
-      setUser(data);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
     });
     const unsubscribeForMessages = onSnapshot(q, (snap) => {
       setMessages(
@@ -84,17 +103,27 @@ function App() {
 
   return (
     <Box className={styles.firstDiv}>
-      {user ? (
+      {authUser ? (
         <Container h={"100vh"} bg={"white"} className={styles.secondDiv}>
           <VStack h="full" paddingY={"4"} className={styles.thirdDiv}>
             //its a div with flex direction column
             <Button
               colorScheme="red"
-              w={"full"}
+              w={"400px"}
               size="md"
+              leftIcon={<RiLogoutBoxLine />}
               onClick={logOutHandler}
             >
               Logout
+            </Button>
+            <Button
+              colorScheme="teal"
+              w={"150px"}
+              size="sm"
+              leftIcon={<IoPersonRemoveSharp />}
+              onClick={removeAcc}
+            >
+              Remove Account
             </Button>
             <VStack
               h={"full"}
@@ -110,7 +139,7 @@ function App() {
               {messages.map((item) => (
                 <Message
                   key={item.id}
-                  user={item.uid === user.uid ? "me" : "other"}
+                  authUser={item.uid === authUser.uid ? "me" : "other"}
                   text={item.text}
                   uri={item.uri}
                 />
@@ -136,19 +165,47 @@ function App() {
           </VStack>
         </Container>
       ) : (
-        <VStack
-          h={"100vh"}
-          justifyContent={"center"}
-          className={styles.signinbg}
-        >
-          <Button
-            transition={"all 1s"}
-            className={styles.customButton}
-            borderRadius="18px"
-            onClick={loginHandler}
-          >
-            Sign in with Google
-          </Button>
+        <VStack h={"100vh"} justifyContent={"center"}>
+          <Router>
+            <Routes>
+              <Route
+                path="/signin"
+                element={<Signin setAuthUser={setAuthUser} />}
+              />
+              <Route path="/" element={<Signup />} />
+            </Routes>
+            <HStack
+              gap={5}
+              justifyContent={"center"}
+              alignSelf={"center"}
+              wrap={"wrap"}
+            >
+              <Link to="/signin">
+                <Button
+                  leftIcon={<FaSignInAlt />}
+                  colorScheme="whiteAlpha"
+                  color={"black"}
+                  variant={"solid"}
+                >
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/">
+                <Button colorScheme="whiteAlpha" color={"black"}>
+                  Sign Up
+                </Button>
+              </Link>
+
+              <Button
+                leftIcon={<SiGmail />}
+                colorScheme="whiteAlpha"
+                color={"black"}
+                onClick={signinGoogle}
+              >
+                Sign in with Google
+              </Button>
+            </HStack>
+          </Router>
         </VStack>
       )}
     </Box>

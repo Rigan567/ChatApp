@@ -1,6 +1,14 @@
 .firstDiv {
-  background-color: rgba(165, 42, 42, 0.267);
+  background-image: url(./bg2.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+.firstDiv ::after {
+  background-color: rgba(0, 0, 0, 0.726);
+  opacity: 0.5;
+}
+
 // .secondDiv {
 
 // }
@@ -23,13 +31,13 @@
   background-color: rgba(192, 185, 185, 0.993);
   color: black;
 }
-.signinbg {
-  background-image: url(SpiderMan.jpg);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: all 0.5s;
-}
+// .signinbg {
+//   // background-image: url(SpiderMan.jpg);
+//   background-size: cover;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   transition: all 0.5s;
+// }
 
 .customButton {
   background-image: linear-gradient(

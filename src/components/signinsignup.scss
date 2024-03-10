@@ -1,0 +1,46 @@
+.signupcontainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  gap: 1.5rem;
+  > h2 {
+    font: bold 2rem san-sarif;
+    text-align: center;
+    color: white;
+  }
+  > form {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  > a {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.signincontainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  gap: 1.5rem;
+  > h2 {
+    font: bold 2rem san-sarif;
+    text-align: center;
+    color: white;
+  }
+  > form {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    width: 100%;
+  }
+}
