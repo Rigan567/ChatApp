@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { auth } from "../firebase";
 import { Button, Input } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [resetEmail, setResetEmail] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -18,6 +23,16 @@ const Signin = () => {
       .catch((error) => {
         setError(error);
       });
+  };
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetEmail(true);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   return (
@@ -48,8 +63,19 @@ const Signin = () => {
         >
           Login
         </Button>
+        {error && <h2>{error.message}</h2>}
       </form>
-      {error && <h2>{error.message}</h2>}
+      <Button colorScheme="green" size={"xs"} onClick={handleForgotPassword}>
+        Forgot Password
+      </Button>
+      {resetEmail && (
+        <p style={{ color: "white" }}>
+          Password reset email Sent to {`${email}`}{" "}
+        </p>
+      )}
+      <Link to={"/signup"}>
+        <h3 style={{ color: "white" }}>Don't Have an Account? Sign Up</h3>
+      </Link>
     </div>
   );
 };

@@ -15,7 +15,8 @@ const Signup = () => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/");
+
+      navigate("/signin");
     } catch (error) {
       setError(error);
     }
@@ -35,7 +36,7 @@ const Signup = () => {
         ></Input>
         <Input
           variant={"flashed"}
-          color={"white"}
+          color={"black"}
           type="password"
           placeholder="Enter Pass"
           value={password}
@@ -62,4 +63,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export { Signup };

@@ -12,6 +12,7 @@ const Message = ({ text, uri, authUser }) => {
       alignSelf={authUser === "me" ? "flex-end" : "flex-start"}
     >
       {authUser === "other" && <Avatar size={"sm"} src={uri} />}
+
       <Text>{text}</Text>
 
       {authUser === "me" && <Avatar size={"sm"} src={uri} />}

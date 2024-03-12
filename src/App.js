@@ -12,10 +12,11 @@ import { SiGmail } from "react-icons/si";
 import { FaSignInAlt } from "react-icons/fa";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { IoPersonRemoveSharp } from "react-icons/io5";
+import { FaUserAlt } from "react-icons/fa";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Message from "./components/Message";
 import Signin from "./components/Signin";
-import Signup from "./components/Signup";
+import { Signup } from "./components/Signup";
 
 import styles from "./styles.module.scss";
 import {
@@ -70,6 +71,7 @@ function App() {
         uid: authUser.uid,
         uri: authUser.photoURL,
         createdAt: serverTimestamp(),
+        mail: authUser.email,
       });
       forScroll.current.scrollIntoView({ behavior: "smooth" }); //for auto scrolling w every text
     } catch (error) {
@@ -82,6 +84,7 @@ function App() {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log(user);
         setAuthUser(user);
       } else {
         setAuthUser(null);
@@ -137,12 +140,14 @@ function App() {
               }}
             >
               {messages.map((item) => (
-                <Message
-                  key={item.id}
-                  authUser={item.uid === authUser.uid ? "me" : "other"}
-                  text={item.text}
-                  uri={item.uri}
-                />
+                <>
+                  <Message
+                    key={item.id}
+                    authUser={item.uid === authUser.uid ? "me" : "other"}
+                    text={item.text}
+                    uri={item.uri}
+                  />
+                </>
               ))}
               <div ref={forScroll}></div>
             </VStack>
@@ -172,7 +177,7 @@ function App() {
                 path="/signin"
                 element={<Signin setAuthUser={setAuthUser} />}
               />
-              <Route path="/" element={<Signup />} />
+              <Route path="/signup" element={<Signup />} />
             </Routes>
             <HStack
               gap={5}
@@ -190,8 +195,12 @@ function App() {
                   Sign In
                 </Button>
               </Link>
-              <Link to="/">
-                <Button colorScheme="whiteAlpha" color={"black"}>
+              <Link to="/signup">
+                <Button
+                  leftIcon={<FaUserAlt />}
+                  colorScheme="whiteAlpha"
+                  color={"black"}
+                >
                   Sign Up
                 </Button>
               </Link>
